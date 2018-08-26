@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { Component } from 'react'
+import MovieSearchTile from './MovieSearchTile.js'
 
 export const App = (props) => {
-  return (<h1>Make It So React</h1>)
+  return (
+    <div>
+      <h1>Search container will go here</h1>
+      <MovieSearchTile/>
+    </div>
+  )
 }
 
 export default App
