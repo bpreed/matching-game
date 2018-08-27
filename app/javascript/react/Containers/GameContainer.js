@@ -120,18 +120,24 @@ class GameContainer extends Component {
     }
     return (
       <div>
-        <MovieSearchTile
-          handleSearch={this.handleSearch}
-          newGame={this.newGame}
-          actors={this.state.actors}
-          searchInProgress={this.state.searchInProgress}
-        />
-        {errorDiv}
-        {actorPhotoDiv}
-          <div className="score-div">
-            {scoreButton} {scoreDiv}
+        <div>
+          <div id="movie-search">
+            <MovieSearchTile
+              handleSearch={this.handleSearch}
+              newGame={this.newGame}
+              actors={this.state.actors}
+              searchInProgress={this.state.searchInProgress}
+            />
+            {errorDiv}
+            {actorPhotoDiv}
+              <div className="score-div">
+                {scoreButton} {scoreDiv}
+            </div>
+            <div className="tmbd-attribution">
+              This product uses the TMDb API for movie search but is not endorsed or certified by TMDb.
+            </div>
+          </div>
         </div>
-        <div className="tmbd-attribution">This product uses the TMDb API but is not endorsed or certified by TMDb.</div>
         <div className="celeb-search-div">
           <CelebPhotoUploadTile />
         </div>
