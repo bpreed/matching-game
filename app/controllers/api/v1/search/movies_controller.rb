@@ -7,25 +7,31 @@ class Api::V1::Search::MoviesController < ApplicationController
   def create
     movie = params["movie"]
 
-    omdb_url = "http://www.omdbapi.com/?apikey=#{ENV["OMDB_API"]}&t=#{movie.gsub(' ', '+')}"
+    tmdb_url = "https://api.themoviedb.org/3/search/movie?api_key=#{ENV["TMDB_API"]}&language=en-US&query=#{movie.gsub(' ', '%20')}&page=1&include_adult=false"
 
-    movie_data = JSON.parse(open(omdb_url).read)
+    tmdb_movie_data = JSON.parse(open(tmdb_url).read)
 
-    actors = movie_data["Actors"].split(",")
-    actor_photos = []
-    actors.each do |actor|
-      actor_wiki_page = Wikipedia.find(actor)
-      actor_wiki_page.main_image_url
-      actor_photos << actor_wiki_page.main_image_url
-    end
+    if tmdb_movie_data["total_results"] >= 1
+      movie_id = tmdb_movie_data["results"][0]["id"]
+      movie_credits_url = "https://api.themoviedb.org/3/movie/#{movie_id}/credits?api_key=#{ENV["TMDB_API"]}"
+      tmdb_cast_data = JSON.parse(open(movie_credits_url).read)
 
-    actor_photos.each_with_index do |photo, index|
-      if photo == nil
-        actors.delete_at(index)
-        actor_photos.delete_at(index)
+      cast = []
+      cast_photos = []
+      cast_index = 0
+      while cast.length < 5 && (cast_index < tmdb_cast_data["cast"].length)
+        actor_wiki_page = Wikipedia.find(tmdb_cast_data["cast"][cast_index]["name"])
+        if actor_wiki_page.main_image_url
+          cast_photos << actor_wiki_page.main_image_url
+          cast << tmdb_cast_data["cast"][cast_index]["name"]
+        end
+        cast_index += 1
       end
+      # Returns found events and results of user check
+      render json: { movie: movie, actors: cast, actor_photos: cast_photos }
+    else
+      render json: { errorMessage: "No matching movie found" }
     end
-    # Returns found events and results of user check
-    render json: { movie: movie, actors: actors, actor_photos: actor_photos }
+
   end
 end

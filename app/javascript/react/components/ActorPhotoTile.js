@@ -4,25 +4,41 @@ class ActorPhotoTile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      choices: {}
+      optionsItems: {}
     }
     this.handleChange=this.handleChange.bind(this)
   }
 
-  componentDidMount() {
-    let select = document.getElementById(this.props.actors[this.props.index]);
-    let actors = this.props.actors
-
-    actors.forEach((actor, index) => {
-      let opt = document.createElement('option');
-      opt.innerHTML = actor;
-      opt.value = index;
-      select.appendChild(opt);
-    });
-  }
-
   handleChange(event){
     this.props.handleActorSelect(event)
+  }
+
+  componentDidMount() {
+    let optionItems
+    function shuffle(array) {
+      let ctr = array.length;
+      let temp;
+      let index;
+
+      // While there are elements in the array
+      while (ctr > 0) {
+      // Pick a random index
+        index = Math.floor(Math.random() * ctr);
+      // Decrease ctr by 1
+        ctr--;
+      // And swap the last element with it
+        temp = array[ctr];
+        array[ctr] = array[index];
+        array[index] = temp;
+      }
+      return array;
+    }
+
+    let actors = this.props.actors.slice(0)
+    let shuffledActors = shuffle(actors)
+    this.setState({ optionItems: shuffledActors.map((actor) =>
+      <option key={actor} value={actor}>{actor}</option>
+    ) });
   }
 
   render() {
@@ -33,8 +49,9 @@ class ActorPhotoTile extends Component {
         </div>
         <div>
           <form action="#" className="actor-select">
-            <select name={this.props.actors[this.props.index]} id={this.props.actors[this.props.index]} onChange={this.handleChange}>
+            <select name={this.props.actor} id={this.props.actor} onChange={this.handleChange}>
               <option>Who Am I?</option>
+              {this.state.optionItems}
             </select>
           </form>
         </div>

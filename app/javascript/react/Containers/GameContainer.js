@@ -11,7 +11,8 @@ class GameContainer extends Component {
       actors: [],
       actorPhotos: [],
       choices: {},
-      score: null
+      score: null,
+      errorMessage: null
     }
     this.handleSearch=this.handleSearch.bind(this)
     this.handleActorSelect=this.handleActorSelect.bind(this)
@@ -21,7 +22,13 @@ class GameContainer extends Component {
 
   handleSearch(formPayload) {
     this.setState({
-      searchInProgress: true
+      searchInProgress: true,
+      errorMessage: null,
+      movie: '',
+      actors: [],
+      actorPhotos: [],
+      choices: {},
+      score: null
     })
     fetch('/api/v1/search/movies', {
       credentials: 'same-origin',
@@ -40,24 +47,27 @@ class GameContainer extends Component {
     })
     .then(response => response.json())
     .then(body => {
-      this.setState({ searchInProgress: false, movie: body.movie, actors: body.actors, actorPhotos: body.actor_photos, socre: null })
+      if (body.errorMessage) {
+        this.setState({ errorMessage: body.errorMessage })
+      } else {
+        this.setState({ searchInProgress: false, movie: body.movie, actors: body.actors, actorPhotos: body.actor_photos, socre: null })
+      }
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
   }
 
   handleActorSelect(event) {
-    let selection = { [event.target.name]: event.target.value }
     let choices = this.state.choices
-    choices[event.target.name] = event.target.value
+    choices[event.currentTarget.id] = event.target.value
     this.setState({ choices: choices, score: null })
   }
 
   handleSubmit(event) {
     event.preventDefault()
-    let choices = this.state.choices;
     let score = 0
-    this.state.actors.forEach((actor, index) => {
-      if (choices[actor] == index) {
+    let choices = this.state.choices
+    this.state.actors.forEach((actor) => {
+      if (choices[actor] == actor) {
         score += 1
       }
     })
@@ -71,14 +81,14 @@ class GameContainer extends Component {
 
   render () {
     let actorPhotoTiles
-    let submitButton
+    let scoreButton
     if (this.state.actors.length > 0) {
-      submitButton = <button type="submit" id="score-button" onClick={this.handleSubmit} value="Submit">Score me!</button>
+      scoreButton = <button type="submit" id="score-button" onClick={this.handleSubmit} value="Submit">Score me!</button>
       actorPhotoTiles = this.state.actorPhotos.map((photo, index) => {
         return (
           <ActorPhotoTile
           key={index}
-          index={index}
+          actor={this.state.actors[index]}
           photoUrl={photo}
           actors={this.state.actors}
           handleActorSelect={this.handleActorSelect}
@@ -91,21 +101,27 @@ class GameContainer extends Component {
     if (this.state.score != null) {
       scoreDiv = <div className="score"><h2>SCORE: {this.state.score}</h2></div>
     }
+
+    let errorDiv
+    if (this.state.errorMessage) {
+      errorDiv = <div className="error-message">{this.state.errorMessage}</div>
+    }
     return (
       <div>
-      <MovieSearchTile
-        handleSearch={this.handleSearch}
-        newGame={this.newGame}
-        actors={this.state.actors}
-      />
+        <MovieSearchTile
+          handleSearch={this.handleSearch}
+          newGame={this.newGame}
+          actors={this.state.actors}
+        />
+        {errorDiv}
         <div>
-        <div className="actor-tiles">
-          {actorPhotoTiles}
-        </div>
-        {scoreDiv}
-        <div className="score-div">
-          {submitButton}
-        </div>
+          <div className="actor-tiles">
+            {actorPhotoTiles}
+          </div>
+          {scoreDiv}
+          <div className="score-div">
+            {scoreButton}
+          </div>
         </div>
       </div>
     )
