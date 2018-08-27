@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { Component } from 'react'
+import GameContainer from '../Containers/GameContainer.js'
 
 export const App = (props) => {
-  return (<h1>Make It So React</h1>)
+  return (
+    <div>
+      <GameContainer/>
+    </div>
+  )
 }
 
 export default App
