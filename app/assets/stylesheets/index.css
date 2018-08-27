@@ -76,6 +76,7 @@ form {
   margin-right: auto;
   margin-top: .5rem;
   margin-bottom: 3rem;
+  text-align: center;
 }
 
 .lookalike-result {
@@ -86,6 +87,15 @@ form {
 
 .capitalize {
   text-transform: capitalize;
+}
+
+.celebrity{
+  font-weight: bold;
+}
+
+#uploaded-photo{
+  max-width: 15rem;
+  max-height: 20rem:
 }
 
 #lookalike-header{
