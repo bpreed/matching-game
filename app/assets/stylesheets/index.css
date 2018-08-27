@@ -74,6 +74,31 @@ form {
   width: 27rem;
   margin-left: auto;
   margin-right: auto;
+  margin-top: .5rem;
+  margin-bottom: 3rem;
+}
+
+.lookalike-result {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+#lookalike-header{
+  text-align: center;
+}
+
+#celeb-search-form {
+  border-radius: 2px;
+  border-style: solid;
+  padding: 1rem;
+}
+
+#search-again {
   margin-top: 1rem;
 }
 
