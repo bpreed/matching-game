@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import MovieSearchTile from '../components/MovieSearchTile'
 import ActorPhotoTile from '../components/ActorPhotoTile'
 import CelebPhotoUploadTile from '../components/CelebPhotoUploadTile'
+import { shuffle } from '../modules/shuffle'
+
 
 class GameContainer extends Component {
   constructor(props) {
@@ -11,6 +13,7 @@ class GameContainer extends Component {
       movie: '',
       actors: [],
       actorPhotos: [],
+      actorsWithPhotos: [],
       choices: {},
       score: null,
       errorMessage: null
@@ -49,9 +52,19 @@ class GameContainer extends Component {
     .then(response => response.json())
     .then(body => {
       if (body.errorMessage) {
-        this.setState({ errorMessage: body.errorMessage })
+        this.setState({
+          errorMessage: body.errorMessage,
+          searchInProgress: false
+        })
       } else {
-        this.setState({ searchInProgress: false, movie: body.movie, actors: body.actors, actorPhotos: body.actor_photos, socre: null })
+        this.setState({
+          searchInProgress: false,
+          movie: body.movie,
+          actors: body.actors,
+          actorPhotos: body.actor_photos,
+          actorsWithPhotos: body.actors_with_photos,
+          socre: null
+        })
       }
     })
     .catch(error => console.error(`Error in fetch: ${error.message}`));
@@ -77,7 +90,14 @@ class GameContainer extends Component {
 
   newGame(event) {
     event.preventDefault()
-    this.setState({ searchInProgress: false, movie: '', actors: [], actorPhotos: [], choices: {}, score: null })
+    this.setState({
+      searchInProgress: false,
+      movie: '',
+      actors: [],
+      actorPhotos: [],
+      choices: {},
+      score: null
+    })
   }
 
   render () {
@@ -88,12 +108,12 @@ class GameContainer extends Component {
       scoreButton = <button type="submit" id="score-button" onClick={this.handleSubmit} value="Submit">
                       Score me!
                     </button>
-      actorPhotoTiles = this.state.actorPhotos.map((photo, index) => {
+      actorPhotoTiles = this.state.actorsWithPhotos.map((actor, index) => {
         return (
           <ActorPhotoTile
             key={index}
-            actor={this.state.actors[index]}
-            photoUrl={photo}
+            actor={Object.keys(actor)[0]}
+            photoUrl={Object.values(actor)[0]}
             actors={this.state.actors}
             handleActorSelect={this.handleActorSelect}
           />
