@@ -20,7 +20,7 @@
 .actor-select {
   margin-left: auto;
   margin-right: auto;
-  max-width: 20rem;
+  max-width: 15rem;
 }
 
 .actor-select select option {
@@ -50,12 +50,39 @@ form {
   height: 25rem;
 }
 
+.score-div {
+  display: flex;
+}
+
+.score {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#score-button {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.search-button-area {
+  display: inline-flex;
+  margin: auto;
+}
+
+.tmbd-attribution {
+  font-size: .8rem;
+  width: 27rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+}
+
 .lds-space {
   display: inline-block;
   position: relative;
   width: 64px;
   height: 64px;
-  margin-right: 2rem;
+  margin-left: 2rem;
   margin-top: auto;
   margin-bottom: auto;
 }
@@ -65,7 +92,7 @@ form {
   position: relative;
   width: 64px;
   height: 64px;
-  margin-right: 2rem;
+  margin-left: 2rem;
 }
 .lds-roller div {
   animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
@@ -146,14 +173,34 @@ form {
   }
 }
 
+#new-game-button {
+  margin-right: 1rem;
+}
+
 @media only screen and (max-width: 1200px) {
   .actor-tiles {
-    display: block;
+    display: inline-block;
+    height: 12rem;
+    margin-bottom: 1rem;
+  }
+  .actor-photo {
+    max-width: 12rem;
+    max-height: 11rem;
   }
   .actor-div{
     margin-top: 1rem;
+    max-height: 14rem;
+    width: 100%;
   }
   .score-div{
     margin-top: 1rem;
+  }
+  .photo-div {
+    height: 12rem;
+  }
+  .actor-select {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 10rem;
   }
 }

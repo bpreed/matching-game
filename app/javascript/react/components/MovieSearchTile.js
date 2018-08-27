@@ -4,8 +4,7 @@ class MovieSearchTile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      movie: '',
-      searchInProgress: false
+      movie: ''
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -35,7 +34,7 @@ class MovieSearchTile extends Component {
 
   render() {
     let inSearchIcon
-    if (this.state.searchInProgress) {
+    if (this.props.searchInProgress) {
       inSearchIcon = <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
     } else {
       inSearchIcon = <div className="lds-space"></div>
@@ -59,8 +58,10 @@ class MovieSearchTile extends Component {
               Movie Name:
               <input className="search-input" type='text' name='movie' value={this.state.movie} onChange={this.handleChange} />
             </div>
-            {searchButton}
-            {inSearchIcon}
+            <span className="search-button-area row">
+              {searchButton}
+              {inSearchIcon}
+            </span>
           </span>
         </form>
       </div>

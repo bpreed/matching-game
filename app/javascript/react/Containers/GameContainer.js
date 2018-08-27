@@ -59,7 +59,7 @@ class GameContainer extends Component {
   handleActorSelect(event) {
     let choices = this.state.choices
     choices[event.currentTarget.id] = event.target.value
-    this.setState({ choices: choices, score: null })
+    this.setState({ choices: choices })
   }
 
   handleSubmit(event) {
@@ -82,24 +82,35 @@ class GameContainer extends Component {
   render () {
     let actorPhotoTiles
     let scoreButton
+    let actorPhotoDiv = null
     if (this.state.actors.length > 0) {
-      scoreButton = <button type="submit" id="score-button" onClick={this.handleSubmit} value="Submit">Score me!</button>
+      scoreButton = <button type="submit" id="score-button" onClick={this.handleSubmit} value="Submit">
+                      Score me!
+                    </button>
       actorPhotoTiles = this.state.actorPhotos.map((photo, index) => {
         return (
           <ActorPhotoTile
-          key={index}
-          actor={this.state.actors[index]}
-          photoUrl={photo}
-          actors={this.state.actors}
-          handleActorSelect={this.handleActorSelect}
+            key={index}
+            actor={this.state.actors[index]}
+            photoUrl={photo}
+            actors={this.state.actors}
+            handleActorSelect={this.handleActorSelect}
           />
         )
       })
+      actorPhotoDiv = <div className="actor-tiles">
+                        {actorPhotoTiles}
+                      </div>
     }
 
     let scoreDiv
     if (this.state.score != null) {
-      scoreDiv = <div className="score"><h2>SCORE: {this.state.score}</h2></div>
+      scoreButton = <div></div>
+      if (this.state.score == 1) {
+        scoreDiv = <div className="score"><h2>{this.state.score} point!</h2></div>
+      } else {
+        scoreDiv = <div className="score"><h2>{this.state.score} points!</h2></div>
+      }
     }
 
     let errorDiv
@@ -112,17 +123,14 @@ class GameContainer extends Component {
           handleSearch={this.handleSearch}
           newGame={this.newGame}
           actors={this.state.actors}
+          searchInProgress={this.state.searchInProgress}
         />
         {errorDiv}
-        <div>
-          <div className="actor-tiles">
-            {actorPhotoTiles}
-          </div>
-          {scoreDiv}
+        {actorPhotoDiv}
           <div className="score-div">
-            {scoreButton}
-          </div>
+            {scoreButton} {scoreDiv}
         </div>
+        <div className="tmbd-attribution">This product uses the TMDb API but is not endorsed or certified by TMDb.</div>
       </div>
     )
   }
