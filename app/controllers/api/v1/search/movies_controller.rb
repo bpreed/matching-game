@@ -18,17 +18,19 @@ class Api::V1::Search::MoviesController < ApplicationController
 
       cast = []
       cast_photos = []
+      cast_with_photos = []
       cast_index = 0
       while cast.length < 5 && (cast_index < tmdb_cast_data["cast"].length)
         actor_wiki_page = Wikipedia.find(tmdb_cast_data["cast"][cast_index]["name"])
         if actor_wiki_page.main_image_url
           cast_photos << actor_wiki_page.main_image_url
           cast << tmdb_cast_data["cast"][cast_index]["name"]
+          cast_with_photos << { tmdb_cast_data["cast"][cast_index]["name"] => actor_wiki_page.main_image_url }
         end
         cast_index += 1
       end
       # Returns found events and results of user check
-      render json: { movie: movie, actors: cast, actor_photos: cast_photos }
+      render json: { movie: movie, actors: cast, actor_photos: cast_photos, actors_with_photos: cast_with_photos.shuffle }
     else
       render json: { errorMessage: "No matching movie found" }
     end

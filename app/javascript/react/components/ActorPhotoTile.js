@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { shuffle } from '../modules/shuffle.js'
 
 class ActorPhotoTile extends Component {
   constructor(props) {
@@ -15,25 +16,6 @@ class ActorPhotoTile extends Component {
 
   componentDidMount() {
     let optionItems
-    function shuffle(array) {
-      let ctr = array.length;
-      let temp;
-      let index;
-
-      // While there are elements in the array
-      while (ctr > 0) {
-      // Pick a random index
-        index = Math.floor(Math.random() * ctr);
-      // Decrease ctr by 1
-        ctr--;
-      // And swap the last element with it
-        temp = array[ctr];
-        array[ctr] = array[index];
-        array[index] = temp;
-      }
-      return array;
-    }
-
     let actors = this.props.actors.slice(0)
     let shuffledActors = shuffle(actors)
     this.setState({ optionItems: shuffledActors.map((actor) =>

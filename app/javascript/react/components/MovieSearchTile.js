@@ -19,9 +19,7 @@ class MovieSearchTile extends Component {
 
   handleSubmit(event){
     event.preventDefault()
-    let formPayload = {
-      movie: this.state.movie
-    }
+    let formPayload = { movie: this.state.movie }
     this.props.handleSearch(formPayload)
   }
 
@@ -40,17 +38,22 @@ class MovieSearchTile extends Component {
 
     let searchButton
     if (this.props.actors.length == 0) {
-      searchButton = <button type="submit" id="search-button" onSubmit={this.handleSubmit} value="Submit">Search</button>
+      searchButton = <button type="submit" id="search-button" onSubmit={this.handleSubmit} value="Submit">
+                      Search
+                    </button>
     } else {
-      searchButton = <a id="new-game-button" className="button" onClick={this.newGame}>New Game</a>
+      searchButton = <a id="new-game-button" className="button" onClick={this.newGame}>
+                      New Game
+                    </a>
     }
 
     return (
       <div className="large-12 medium-12 small-12 search-tile">
         <form id="search-form" className="search-form large-4 medium-4 small-10" onSubmit={this.handleSubmit}>
-          <h3 id="search-title">
-            Search Criteria
-          </h3>
+          <h2 id="search-title">
+            Actor Name Game
+          </h2>
+          <p>Enter a movie and match the actors to their pictures</p>
           <span className="row search-top-row">
             <div className="name-search large-12 medium-12 small-12">
               Movie Name:
