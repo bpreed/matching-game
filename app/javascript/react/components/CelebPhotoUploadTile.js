@@ -56,8 +56,9 @@ class CelebPhotoUploadTile extends Component {
     let searchDiv
     if (this.state.lookalike) {
       lookalikeResult = <div className="lookalike-result large-4 medium-4 small-10">
+                          <img src={this.state.photoUrl} id="uploaded-photo"/>
                           <h3>Your celebrity lookalike is:</h3>
-                          <h3 className="capitalize">{this.state.lookalike}!</h3>
+                          <h3 className="capitalize celebrity">{this.state.lookalike}!</h3>
                           <a className="button" id="search-again" onClick={this.resetSearch}>Search again</a>
                         </div>
     } else if (this.state.errorMessage) {
