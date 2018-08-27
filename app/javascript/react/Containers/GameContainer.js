@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import MovieSearchTile from '../components/MovieSearchTile'
 import ActorPhotoTile from '../components/ActorPhotoTile'
+import CelebPhotoUploadTile from '../components/CelebPhotoUploadTile'
 
 class GameContainer extends Component {
   constructor(props) {
@@ -131,6 +132,9 @@ class GameContainer extends Component {
             {scoreButton} {scoreDiv}
         </div>
         <div className="tmbd-attribution">This product uses the TMDb API but is not endorsed or certified by TMDb.</div>
+        <div className="celeb-search-div">
+          <CelebPhotoUploadTile />
+        </div>
       </div>
     )
   }

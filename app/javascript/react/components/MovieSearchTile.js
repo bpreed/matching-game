@@ -11,14 +11,12 @@ class MovieSearchTile extends Component {
     this.newGame = this.newGame.bind(this)
   }
 
-  // Sets state based on non-multi-select field input
   handleChange(event){
     this.setState({
       [event.target.name]: event.target.value
     })
   }
 
-  // Invokes handleSearch function from EventsIndexContainer
   handleSubmit(event){
     event.preventDefault()
     let formPayload = {
