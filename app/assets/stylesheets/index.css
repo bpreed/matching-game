@@ -1,3 +1,50 @@
+.actor-photo {
+  max-width: 15rem;
+  max-height: 22rem;
+  align-self: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.photo-div {
+  height: 23rem;
+}
+
+.actor-tiles {
+  display: flex;
+  height: 25rem;
+  margin-bottom: 5rem;
+}
+
+.actor-select {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 20rem;
+}
+
+.actor-select select option {
+  text-align: center;
+}
+
+form {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.search-tile{
+  /* max-width: 40rem; */
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+}
+
+.actor-div{
+  margin-left: auto;
+  margin-right: auto;
+  height: 25rem;
+}
+
 .lds-space {
   display: inline-block;
   position: relative;
@@ -91,5 +138,17 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .actor-tiles {
+    display: block;
+  }
+  .actor-div{
+    margin-top: 1rem;
+  }
+  .score-div{
+    margin-top: 1rem;
   }
 }

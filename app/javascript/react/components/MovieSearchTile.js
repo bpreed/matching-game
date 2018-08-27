@@ -8,8 +8,8 @@ class MovieSearchTile extends Component {
       searchInProgress: false
     }
     this.handleChange = this.handleChange.bind(this)
-    this.handleMultiSelect = this.handleMultiSelect.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.newGame = this.newGame.bind(this)
   }
 
   // Sets state based on non-multi-select field input
@@ -19,47 +19,18 @@ class MovieSearchTile extends Component {
     })
   }
 
-  handleLocationChange(event){
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
-
-  // Sets state based on multi-select input
-  handleMultiSelect(optionsList){
-    this.setState(optionsList)
-  }
-
   // Invokes handleSearch function from EventsIndexContainer
   handleSubmit(event){
     event.preventDefault()
-    this.setState({
-      searchInProgress: true
-    })
     let formPayload = {
       movie: this.state.movie
     }
-    fetch('/api/v1/search/movies', {
-      credentials: 'same-origin',
-      method: 'POST',
-      body: JSON.stringify(formPayload),
-      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'}
-    })
-    .then(response => {
-      if (response.ok) {
-        return response;
-      } else {
-        let errorMessage = `${response.status} (${response.statusText})`,
-          error = new Error(errorMessage);
-        throw(error);
-      }
-    })
-    .then(response => response.json())
-    .then(body => {
-      debugger
-      this.setState({ searchInProgress: false })
-    })
-    .catch(error => console.error(`Error in fetch: ${error.message}`));
+    this.props.handleSearch(formPayload)
+  }
+
+  newGame(event){
+    this.props.newGame(event)
+    this.setState({ movie: '' })
   }
 
   render() {
@@ -70,18 +41,25 @@ class MovieSearchTile extends Component {
       inSearchIcon = <div className="lds-space"></div>
     }
 
+    let searchButton
+    if (this.props.actors.length == 0) {
+      searchButton = <button type="submit" id="search-button" onSubmit={this.handleSubmit} value="Submit">Search</button>
+    } else {
+      searchButton = <a id="new-game-button" className="button" onClick={this.newGame}>New Game</a>
+    }
+
     return (
       <div className="large-12 medium-12 small-12 search-tile">
-        <form id="search-form" className="search-form" onSubmit={this.handleSubmit}>
+        <form id="search-form" className="search-form large-4 medium-4 small-10" onSubmit={this.handleSubmit}>
           <h3 id="search-title">
             Search Criteria
           </h3>
           <span className="row search-top-row">
-            <div className="name-search large-3 medium-3 small-12">
+            <div className="name-search large-12 medium-12 small-12">
               Movie Name:
               <input className="search-input" type='text' name='movie' value={this.state.movie} onChange={this.handleChange} />
             </div>
-            <button type="submit" id="search-button" onSubmit={this.handleSubmit} value="Submit">Search</button>
+            {searchButton}
             {inSearchIcon}
           </span>
         </form>
